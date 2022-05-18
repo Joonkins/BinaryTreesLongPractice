@@ -163,18 +163,18 @@ function getParentNode(rootNode, target) {
 
 function inOrderPredecessor(rootNode, target) {
   // Your code here
- let newArr = []
+  let newArr = []
 
   function helper(node) {
 
 
-    if(node.left){
+    if (node.left) {
       helper(node.left)
     };
 
     newArr.push(node.val);
 
-    if(node.right){
+    if (node.right) {
       helper(node.right)
     };
 
@@ -185,24 +185,24 @@ function inOrderPredecessor(rootNode, target) {
   let arr = helper(rootNode)
 
   let index = arr.indexOf(target)
-console.log(index, target);
-console.log(arr);
+  console.log(index, target);
+  console.log(arr);
 
-  if(index <= 0 ){
+  if (index <= 0) {
     return null
-  }else {
-    return arr[index-1]
+  } else {
+    return arr[index - 1]
   };
 
 
   // if (!rootNode) return null;
 
-//   if(rootNode){
-//     if((inOrderPredecessor(rootNode.left)) || (inOrderPredecessor(rootNode.right)) === target){
-//      return rootNode.val
-//     };
-//    console.log(rootNode.val);
-// }
+  //   if(rootNode){
+  //     if((inOrderPredecessor(rootNode.left)) || (inOrderPredecessor(rootNode.right)) === target){
+  //      return rootNode.val
+  //     };
+  //    console.log(rootNode.val);
+  // }
 
 
 
@@ -210,23 +210,62 @@ console.log(arr);
 
 
 function deleteNodeBST(rootNode, target) {
+  if (!rootNode || !target) return null;
   // Do a traversal to find the node. Keep track of the parent
 
   // Undefined if the target cannot be found
+
+  let curr = rootNode;
+  let parent = null;
+  let foundTarget = null;
+  while (curr) {
+    if (curr.val === target) {
+      foundTarget = curr; // assign to "foundTarget" variable to use later;
+      break;
+    }
+    else if (target > curr.val) {
+      parent = curr;
+      curr = curr.right;
+    } else {
+      parent = curr;
+      curr = curr.left;
+    }
+  } // line 226 - 231 to find the parent
+  if (!foundTarget) return undefined; // target not found, return undefined;
 
   // Set target based on parent
 
   // Case 0: Zero children and no parent:
   //   return null
-
+  if (!parent && !foundTarget.left && !foundTarget.right) {
+    foundTarget = null;
+  }
   // Case 1: Zero children:
   //   set the parent that points to it to null
+  else if (!foundTarget.left && !foundTarget.right) {
+    if (parent.left === foundTarget) parent.left = null;
+    else if (parent.right === foundTarget) parent.right = null;
+  }
 
   // Case 2: Two children:
   //   set the value to its in-order predecessor, then delete the predecessor
-
+  else if (foundTarget.left && foundTarget.right) {
+    let predecessor = inOrderPredecessor(rootNode, target);
+    deleteNodeBST(rootNode, predecessor);
+    foundTarget.val = predecessor;
+  }
   // Case 3: One child:
   //   Make the parent point to the child
+  else if ((foundTarget.left && !foundTarget.right) || (!foundTarget.left && foundTarget.right)) {
+    if (parent.left === foundTarget) {
+      if (foundTarget.left) parent.left = foundTarget.left;
+      else parent.left = foundTarget.right;
+    }
+    else if (parent.right === foundTarget) {
+      if (foundTarget.left) parent.right = foundTarget.left;
+      else parent.right = foundTarget.right;
+    }
+  }
 
 }
 
