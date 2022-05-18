@@ -95,38 +95,68 @@ function getHeight(rootNode) {
 
 function countNodes(rootNode) {
   // Your code here
-  if(!rootNode) return 0;
-  
+  if (!rootNode) return 0;
+
   // let counter = 0
 
   // countNodes(rootNode.left);
   // console.log(counter++);
   // countNodes(rootNode.right)
-  
+
   return (countNodes(rootNode.left) + countNodes(rootNode.right) + 1)
 
-  
+
 
 }
 
 function balancedTree(rootNode) {
   // Your code here
 
-  if(!rootNode) return true;
+  if (!rootNode) return true;
 
   let leftHeight = getHeight(rootNode.left)
   let rightHeight = getHeight(rootNode.right)
 
-  if(Math.abs(leftHeight - rightHeight) <= 1 && balancedTree(rootNode.left) && balancedTree(rootNode.right)){
+  if (Math.abs(leftHeight - rightHeight) <= 1 && balancedTree(rootNode.left) && balancedTree(rootNode.right)) {
     return true
-  }else{ 
+  } else {
     return false
   }
 
 }
 
 function getParentNode(rootNode, target) {
-  // Your code here
+  if (!rootNode || target === null) return null;
+  if (rootNode.val === target) return null;
+
+  // if (rootNode) {
+  //   if (rootNode.left.val === target || rootNode.right.val === target) {
+  //     return rootNode;
+  //   }
+  // }
+
+  let queue = [];
+  let parent = {}
+  queue.push(rootNode);
+
+  while (queue.length) {
+    let curr = queue.shift();
+    if (curr.val === target) {
+      return parent[curr.val];
+    }
+
+    if (curr.left) {
+      queue.push(curr.left);
+      parent[curr.left.val] = curr;
+    }
+    if (curr.right) {
+      queue.push(curr.right);
+      parent[curr.right.val] = curr;
+    }
+  }
+
+  return undefined;
+
 }
 
 function inOrderPredecessor(rootNode, target) {
