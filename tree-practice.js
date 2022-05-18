@@ -72,32 +72,26 @@ function getHeight(rootNode) {
   // Your code here
   //1 set tracker to count how many times
 
+  if (!rootNode) return 0;
   let tracker = 0;
+  let queue = [];
+  queue.push(rootNode);
 
-  if(!rootNode) return 0;
-
-  const queue = [rootNode];
-  
-  while (queue) {
+  while (queue.length) {
     let temp = [];
-    let currentNode = queue.shift()
-    tracker++;
+    for (let i = 0; i < queue.length; i++) {
+      if (queue[i].left) queue.push(queue[i].left);
+      if (queue[i].right) queue.push(queue[i].right);
+    }
 
-    if (currentNode.left) {
-      queue.push(currentNode.left)
-      tracker++
-    };
-    if (currentNode.right) {
-    queue.push(currentNode.right)
-    tracker++
-  };
+    if (temp.length) tracker++;
+
+    queue = temp;
   }
 
-
-return tracker
-
-
+  return tracker;
 }
+
 
 function countNodes(rootNode) {
   // Your code here
