@@ -80,8 +80,8 @@ function getHeight(rootNode) {
   while (queue.length) {
     let temp = [];
     for (let i = 0; i < queue.length; i++) {
-      if (queue[i].left) queue.push(queue[i].left);
-      if (queue[i].right) queue.push(queue[i].right);
+      if (queue[i].left) temp.push(queue[i].left);
+      if (queue[i].right) temp.push(queue[i].right);
     }
 
     if (temp.length) tracker++;
