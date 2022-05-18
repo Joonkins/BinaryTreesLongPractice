@@ -159,8 +159,53 @@ function getParentNode(rootNode, target) {
 
 }
 
+
+
 function inOrderPredecessor(rootNode, target) {
   // Your code here
+ let newArr = []
+
+  function helper(node) {
+
+
+    if(node.left){
+      helper(node.left)
+    };
+
+    newArr.push(node.val);
+
+    if(node.right){
+      helper(node.right)
+    };
+
+
+    return newArr
+  }
+
+  let arr = helper(rootNode)
+
+  let index = arr.indexOf(target)
+console.log(index, target);
+console.log(arr);
+
+  if(index <= 0 ){
+    return null
+  }else {
+    return arr[index-1]
+  };
+
+
+  // if (!rootNode) return null;
+
+//   if(rootNode){
+//     if((inOrderPredecessor(rootNode.left)) || (inOrderPredecessor(rootNode.right)) === target){
+//      return rootNode.val
+//     };
+//    console.log(rootNode.val);
+// }
+
+
+
 }
 
 
